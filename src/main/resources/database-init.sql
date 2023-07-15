@@ -8,6 +8,7 @@ CREATE TABLE items
     description   TEXT,
     condition     TEXT,
     posted_day    DATE,
+    category      TEXT,
     on_sale       BOOLEAN
 );
 

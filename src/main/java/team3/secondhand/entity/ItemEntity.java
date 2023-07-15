@@ -14,6 +14,7 @@ public record ItemEntity(
         String description,
         String condition,
         Date postedDay,
+        String category,
         Boolean onSale
 ) {
 }
