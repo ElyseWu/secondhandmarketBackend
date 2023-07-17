@@ -15,7 +15,7 @@ CREATE TABLE items
 
 CREATE TABLE items_image(
     url  TEXT PRIMARY KEY NOT NULL,
-    item_id INTEGER UNIQUE NOT NULL,
+    item_id INTEGER NOT NULL,
     CONSTRAINT fk_item FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE CASCADE
 );
 

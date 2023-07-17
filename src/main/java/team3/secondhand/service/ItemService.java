@@ -19,12 +19,12 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ItemImageRepository itemImageRepository;
 
-    private final ItemImageStorageSevice itemImageStorageSevice;
+    private final ItemImageStorageService itemImageStorageService;
 
-    public ItemService(ItemRepository itemRepository, ItemImageRepository itemImageRepository, ItemImageStorageSevice itemImageStorageSevice) {
+    public ItemService(ItemRepository itemRepository, ItemImageRepository itemImageRepository, ItemImageStorageService itemImageStorageService) {
         this.itemRepository = itemRepository;
         this.itemImageRepository = itemImageRepository;
-        this.itemImageStorageSevice = itemImageStorageSevice;
+        this.itemImageStorageService = itemImageStorageService;
     }
 
     // FAKE upload, not finish image uploading and store part
@@ -38,7 +38,7 @@ public class ItemService {
         // update item image repository
         // TODO: when we use ItemImageStorage service generate a list of URLs
         // TODO: we can use for loop to generate it to item_image table
-        List<String> mediaLinks = Arrays.stream(images).parallel().map(image -> itemImageStorageSevice.save(image)).collect(Collectors.toList());
+        List<String> mediaLinks = Arrays.stream(images).parallel().map(image -> itemImageStorageService.save(image)).collect(Collectors.toList());
         for (String mediaLink : mediaLinks) {
             itemImageRepository.insert(mediaLink, item.getId());
         }

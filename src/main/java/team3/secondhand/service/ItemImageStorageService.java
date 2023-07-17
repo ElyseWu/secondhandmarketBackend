@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.UUID;
 
 @Service
-public class ItemImageStorageSevice {
+public class ItemImageStorageService {
 
     @Value("secondhand-item-images")
     private String bucketName;
@@ -22,7 +22,7 @@ public class ItemImageStorageSevice {
     private final Storage storage;
 
 
-    public ItemImageStorageSevice(Storage storage) {
+    public ItemImageStorageService(Storage storage) {
         this.storage = storage;
     }
 
