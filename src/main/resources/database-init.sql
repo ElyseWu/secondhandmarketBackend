@@ -1,6 +1,5 @@
-DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS items_image;
-
+DROP TABLE IF EXISTS items;
 
 CREATE TABLE items
 (
@@ -16,6 +15,7 @@ CREATE TABLE items
 
 CREATE TABLE items_image(
     url  TEXT PRIMARY KEY NOT NULL,
-    item_id INTEGER REFERENCES items (id)
+    item_id INTEGER UNIQUE NOT NULL,
+    CONSTRAINT fk_item FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE CASCADE
 );
 

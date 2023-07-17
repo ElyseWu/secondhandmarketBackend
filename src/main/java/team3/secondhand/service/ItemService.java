@@ -30,7 +30,12 @@ public class ItemService {
         // TODO: when we use ItemImageStorage service generate a list of URLs
         // TODO: we can use for loop to generate itemImageEntity
         // TODO: each time generation, add it to item_image table
-        ItemImageEntity itemImageEntity = new ItemImageEntity("https://fakeurl.com", item.id());
-        itemImageRepository.save(itemImageEntity);
+
+        // WEIRD BUG
+        //ItemImageEntity itemImageEntity = new ItemImageEntity("https://fakeurl.com", item.getId());
+        //ItemImageRepository.save(itemImageEntity);
+
+        String url = "https://fakeurl.com";
+        itemImageRepository.insert(url, item.getId());
     }
 }

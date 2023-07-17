@@ -8,6 +8,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public record ItemImageEntity (
         @Id
         String url,
+
         Long itemId
 ) {
 }
