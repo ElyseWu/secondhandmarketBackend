@@ -12,3 +12,6 @@ CREATE TABLE items
     on_sale       BOOLEAN
 );
 
+INSERT INTO items (name, price, description, condition, posted_day, category, on_sale)
+VALUES ('iphone', 100, 'iphone xs max', 'very new', '2023-07-16','phone', true);
+
