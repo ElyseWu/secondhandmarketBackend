@@ -1,6 +1,7 @@
 package team3.secondhand.service;
 
 import org.springframework.stereotype.Service;
+import team3.secondhand.entity.ItemEntity;
 import team3.secondhand.repository.ItemRepository;
 
 @Service
@@ -12,5 +13,9 @@ public class ItemService {
 
     public void deleteItem(Long itemId) {
         itemRepository.deleteById(itemId);
+    }
+
+    public ItemEntity getItemById(Long itemId) {
+        return itemRepository.getItemEntityById(itemId);
     }
 }
