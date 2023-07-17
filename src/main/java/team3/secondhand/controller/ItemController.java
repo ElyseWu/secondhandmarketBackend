@@ -3,6 +3,7 @@ package team3.secondhand.controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import team3.secondhand.entity.ItemEntity;
 import team3.secondhand.service.ItemService;
 
@@ -24,7 +25,8 @@ public class ItemController {
             @RequestParam("price") String price,
             @RequestParam("description") String description,
             @RequestParam("condition") String condition,
-            @RequestParam("category") String category
+            @RequestParam("category") String category,
+            @RequestParam("images") MultipartFile[] images
     ) {
 
         // For the filed postedDay:
@@ -37,6 +39,6 @@ public class ItemController {
         // the item onSale state must be false
 
         ItemEntity item = new ItemEntity(name, Double.valueOf(price), description,condition, LocalDate.now(), category, false);
-        itemService.upload(item);
+        itemService.upload(item, images);
     }
 }

@@ -17,3 +17,6 @@ spring:
       # always??????run server? database?????
       mode: ${INIT_DB:always}
       schema-locations: "classpath:database-init.sql"
+
+gcs:
+  bucket: "secondhand-item-images"
