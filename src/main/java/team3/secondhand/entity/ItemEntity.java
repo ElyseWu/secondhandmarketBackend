@@ -18,6 +18,34 @@ public class ItemEntity {
         String category;
         Boolean onSale;
 
+        public void setName(String name) {
+                this.name = name;
+        }
+
+        public void setPrice(Double price) {
+                this.price = price;
+        }
+
+        public void setDescription(String description) {
+                this.description = description;
+        }
+
+        public void setCondition(String condition) {
+                this.condition = condition;
+        }
+
+        public void setPostedDay(LocalDate postedDay) {
+                this.postedDay = postedDay;
+        }
+
+        public void setCategory(String category) {
+                this.category = category;
+        }
+
+        public void setOnSale(Boolean onSale) {
+                this.onSale = onSale;
+        }
+
         public ItemEntity(String name, Double price, String description, String condition, LocalDate postedDay, String category, Boolean onSale) {
                 this.name = name;
                 this.price = price;

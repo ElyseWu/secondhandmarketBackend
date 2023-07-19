@@ -10,19 +10,14 @@ import team3.secondhand.model.ItemDto;
 import team3.secondhand.repository.ItemImageRepository;
 import team3.secondhand.repository.ItemRepository;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import team3.secondhand.repository.ItemRepository;
-import team3.secondhand.entity.ItemEntity;
 import team3.secondhand.model.ItemBody;
-
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 
 
 @Service
@@ -81,32 +76,44 @@ public class ItemService {
         // ItemImageRepository.save(itemImageEntity);
     }
 
-
-
-    public ItemService(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
-    }
-
     public void deleteItem(Long itemId) {
         itemRepository.deleteById(itemId);
     }
 
-
-    public void modifyItem(Long itemId, ItemBody body) {
-        LocalDate localDate = LocalDate.parse(body.postedDay(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    public void modifyItem(Long itemId, String name, Double price, String description, String condition, String category,  MultipartFile[] images) {
+//        LocalDate localDate = LocalDate.parse(body.postedDay(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         // update posted date?
         // localDate = LocalDate.now();
-        Date postedDate = Date.valueOf(localDate);
-        ItemEntity item = new ItemEntity(
-                itemId,
-                body.name(),
-                body.price(),
-                body.description(),
-                body.condition(),
-                postedDate,
-                body.category(),
-                body.onSale());
+
+//        ItemEntity item = new ItemEntity(
+//                body.name(),
+//                body.price(),
+//                body.description(),
+//                body.condition(),
+//                LocalDate.now(),
+//                body.category(),
+//                body.onSale());
+//        itemRepository.save(item);
+        ItemEntity item = itemRepository.getItemEntityById(itemId);
+        item.setName(name);
+        item.setPrice(price);
+        item.setDescription(description);
+        item.setCondition(condition);
+        item.setCategory(category);
         itemRepository.save(item);
+
+        List<String> mediaLinks = Arrays.stream(images).parallel().map(image -> itemImageStorageService.save(image)).collect(Collectors.toList());
+        //1. delete origin link in item_image
+        //2. insert new link in item_image
+
+        List<ItemImageEntity> itemUrls = itemImageRepository.getItemImageEntitiesByItemId(itemId);
+        for (ItemImageEntity itemImage: itemUrls) {
+            itemImageRepository.delete(itemImage);
+        }
+
+        for (String mediaLink : mediaLinks) {
+            itemImageRepository.insert(mediaLink, itemId);
+        }
     }
 
 }
