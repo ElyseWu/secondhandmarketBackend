@@ -10,11 +10,9 @@ import team3.secondhand.service.ItemService;
 import java.time.LocalDate;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 import team3.secondhand.service.ItemService;
+import org.springframework.web.bind.annotation.*;
+import team3.secondhand.model.ItemBody;
 
 
 @RestController
@@ -60,5 +58,12 @@ public class ItemController {
         itemService.deleteItem(itemId);
     }
 
+
+    @PutMapping("/modify/{itemId}")
+    public void modifyItem(
+            @PathVariable Long itemId,
+            @RequestBody ItemBody body) {
+        itemService.modifyItem(itemId, body);
+    }
 
 }
