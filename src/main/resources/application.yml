@@ -15,5 +15,9 @@ spring:
   sql:
     init:
       # always??????run server? database?????
+      # better never init database, beacause we may upload many images to gcs
       mode: ${INIT_DB:always}
       schema-locations: "classpath:database-init.sql"
+
+gcs:
+  bucket: "secondhand-item-images"
