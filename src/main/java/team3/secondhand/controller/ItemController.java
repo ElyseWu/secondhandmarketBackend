@@ -62,8 +62,13 @@ public class ItemController {
     @PutMapping("/modify/{itemId}")
     public void modifyItem(
             @PathVariable Long itemId,
-            @RequestBody ItemBody body) {
-        itemService.modifyItem(itemId, body);
+            @RequestParam("name") String name,
+            @RequestParam("price") String price,
+            @RequestParam("description") String description,
+            @RequestParam("condition") String condition,
+            @RequestParam("category") String category,
+            @RequestParam("images") MultipartFile[] images) {
+        itemService.modifyItem(itemId, name, Double.valueOf(price), description, condition, category, images);
     }
 
 }
