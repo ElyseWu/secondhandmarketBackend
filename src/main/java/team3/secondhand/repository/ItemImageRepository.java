@@ -17,6 +17,4 @@ public interface ItemImageRepository extends CrudRepository<ItemImageEntity, Str
     @Modifying
     @Query("INSERT INTO items_image VALUES(:url, :item_id)")
     void insert(String url, Long item_id);
-
-    void deleteByItemId(Long itemId);
 }
