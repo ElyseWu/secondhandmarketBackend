@@ -17,7 +17,6 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	//implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	// using google cloud storage
 	implementation 'com.google.cloud:google-cloud-storage:2.22.2'

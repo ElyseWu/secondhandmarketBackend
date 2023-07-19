@@ -1,6 +1,7 @@
 package team3.secondhand.service;
 
 import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import team3.secondhand.entity.ItemEntity;
@@ -15,9 +16,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import team3.secondhand.repository.ItemRepository;
+
+
 @Service
 public class ItemService {
     private final ItemRepository itemRepository;
+
     private final ItemImageRepository itemImageRepository;
 
     private final ItemImageStorageService itemImageStorageService;
@@ -70,5 +75,14 @@ public class ItemService {
         // ItemImageRepository.save(itemImageEntity);
     }
 
+
+
+    public ItemService(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+    }
+
+    public void deleteItem(Long itemId) {
+        itemRepository.deleteById(itemId);
+    }
 
 }

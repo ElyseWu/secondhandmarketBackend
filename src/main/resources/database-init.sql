@@ -14,6 +14,7 @@ CREATE TABLE items
     on_sale       BOOLEAN
 );
 
+
 CREATE TABLE items_image(
     url  TEXT PRIMARY KEY NOT NULL,
     item_id INTEGER NOT NULL,
@@ -26,4 +27,5 @@ CREATE TABLE users (
     location Text,
     enabled BOOLEAN NOT NULL
 );
+
 

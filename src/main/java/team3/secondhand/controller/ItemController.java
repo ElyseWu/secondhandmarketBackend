@@ -1,5 +1,6 @@
 package team3.secondhand.controller;
 
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team3.secondhand.entity.ItemEntity;
@@ -8,14 +9,22 @@ import team3.secondhand.service.ItemService;
 
 import java.time.LocalDate;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import team3.secondhand.service.ItemService;
+
+
 @RestController
 public class ItemController {
     private final ItemService itemService;
 
-
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
+
 
     @GetMapping("/item/{itemId}")
     public ItemDto getItemById(@PathVariable("itemId") Long itemId){
@@ -44,4 +53,12 @@ public class ItemController {
         ItemEntity item = new ItemEntity(name, Double.valueOf(price), description,condition, LocalDate.now(), category, false);
         itemService.upload(item, images);
     }
+
+    @DeleteMapping("/delete/{itemId}")
+    @ResponseStatus(value = HttpStatus.ACCEPTED)
+    public void deleteItem(@PathVariable Long itemId) {
+        itemService.deleteItem(itemId);
+    }
+
+
 }
