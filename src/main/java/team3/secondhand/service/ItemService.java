@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import team3.secondhand.entity.ItemEntity;
 import team3.secondhand.entity.ItemImageEntity;
+import team3.secondhand.model.ItemDto;
 import team3.secondhand.repository.ItemImageRepository;
 import team3.secondhand.repository.ItemRepository;
 
@@ -27,17 +28,37 @@ public class ItemService {
         this.itemImageStorageService = itemImageStorageService;
     }
 
-    // FAKE upload, not finish image uploading and store part
-    // TODO: add GCS features & when calling this API, we should also use ItemImageStorageService to store image in CCS
-    // TODO: ItemImageStorageService will store images provided by clients in GCS and generate a list of URLs for these images
-    // TODO: we can use generated URLs to store in corresponding database table
+
+    // TODO: Add Cache features to fast-loading
+    // TODO: Consider using Redis as our candidate solution
+    public ItemDto getItem(Long itemId) {
+        // 1. get ItemEntity
+        ItemEntity itemEntity = itemRepository.getItemEntityById(itemId);
+
+        // 2. get ItemImageEntities
+        List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(itemId);
+
+        // 3. extract URL from image entities
+        List<String> itemImageUrls = new ArrayList<>();
+        for(ItemImageEntity itemImageEntity : itemImageEntities) {
+            itemImageUrls.add(itemImageEntity.url());
+        }
+
+        // 4. construct ItemDto and return
+        return new ItemDto(itemEntity, itemImageUrls);
+    }
+
+    // When calling this API, we should also use ItemImageStorageService to store image in CCS
+    // ItemImageStorageService will store images provided by clients in GCS and generate a list of URLs for these images
+    // we can use generated URLs to store in corresponding database table
     @Transactional
     public void upload(ItemEntity item, MultipartFile[] images) {
         // update item repository
         itemRepository.save(item);
+
         // update item image repository
-        // TODO: when we use ItemImageStorage service generate a list of URLs
-        // TODO: we can use for loop to generate it to item_image table
+        // When we use ItemImageStorage service generate a list of URLs
+        // we can use for loop to generate it to item_image table
         List<String> mediaLinks = Arrays.stream(images).parallel().map(image -> itemImageStorageService.save(image)).collect(Collectors.toList());
         for (String mediaLink : mediaLinks) {
             itemImageRepository.insert(mediaLink, item.getId());
@@ -47,9 +68,7 @@ public class ItemService {
         // WEIRD BUG
         // ItemImageEntity itemImageEntity = new ItemImageEntity("https://fakeurl.com", item.getId());
         // ItemImageRepository.save(itemImageEntity);
-
-        // FAKE image
-        //String url = "https://fakeurl.com";
-        //itemImageRepository.insert(url, item.getId());
     }
+
+
 }

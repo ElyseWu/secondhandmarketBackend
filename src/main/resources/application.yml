@@ -15,7 +15,8 @@ spring:
   sql:
     init:
       # always??????run server? database?????
-      mode: ${INIT_DB:always}
+      # better never init database, beacause we may upload many images to gcs
+      mode: ${INIT_DB:never}
       schema-locations: "classpath:database-init.sql"
 
 gcs:

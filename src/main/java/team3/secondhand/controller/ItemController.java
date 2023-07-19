@@ -1,10 +1,9 @@
 package team3.secondhand.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team3.secondhand.entity.ItemEntity;
+import team3.secondhand.model.ItemDto;
 import team3.secondhand.service.ItemService;
 
 import java.time.LocalDate;
@@ -18,6 +17,10 @@ public class ItemController {
         this.itemService = itemService;
     }
 
+    @GetMapping("/item/{itemId}")
+    public ItemDto getItemById(@PathVariable("itemId") Long itemId){
+        return itemService.getItem(itemId);
+    }
 
     @PostMapping("/items")
     public void uploadItem(
