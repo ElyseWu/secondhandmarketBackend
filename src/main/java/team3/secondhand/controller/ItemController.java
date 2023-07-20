@@ -17,7 +17,6 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-
     @GetMapping("/item/{itemId}")
     public ItemDto getItemById(@PathVariable("itemId") Long itemId){
         return itemService.getItem(itemId);
@@ -42,7 +41,7 @@ public class ItemController {
         // In the initial state, when we upload an item
         // the item onSale state must be false
 
-        ItemEntity item = new ItemEntity(name, Double.valueOf(price), description,condition, LocalDate.now(), category, false);
+        ItemEntity item = new ItemEntity(null, name, Double.valueOf(price), description, condition, LocalDate.now(), category, false);
         itemService.upload(item, images);
     }
 
