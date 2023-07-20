@@ -21,7 +21,6 @@ public class ItemImageStorageService {
 
     private final Storage storage;
 
-
     public ItemImageStorageService(Storage storage) {
         this.storage = storage;
     }
@@ -47,5 +46,4 @@ public class ItemImageStorageService {
         // 上传成功后，我们会返回这个image存在gcp中的url
         return blobInfo.getMediaLink();
     }
-
 }
