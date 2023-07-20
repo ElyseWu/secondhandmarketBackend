@@ -49,9 +49,6 @@ public class SecondhandApplication {
 			}
 		}
 
-
-
 		SpringApplication.run(SecondhandApplication.class, args);
 	}
-
 }
