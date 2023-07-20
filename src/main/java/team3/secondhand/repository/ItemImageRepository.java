@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface ItemImageRepository extends CrudRepository<ItemImageEntity, String> {
-    // TODO: we may need to create a method to find all of the images for specific items
+    // we need to create a method to find all the images for specific items
     List<ItemImageEntity> getItemImageEntitiesByItemId(Long itemId);
 
     @Modifying
