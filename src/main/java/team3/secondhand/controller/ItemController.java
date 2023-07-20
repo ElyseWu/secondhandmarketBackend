@@ -51,17 +51,17 @@ public class ItemController {
         itemService.deleteItem(itemId);
     }
 
-
     @PutMapping("/modify/{itemId}")
     public void modifyItem(
-            @PathVariable Long itemId,
+            @RequestParam("item_id") Long itemId,
             @RequestParam("name") String name,
             @RequestParam("price") String price,
             @RequestParam("description") String description,
             @RequestParam("condition") String condition,
             @RequestParam("category") String category,
+            @RequestParam("on_sale") Boolean onSale,
             @RequestParam("images") MultipartFile[] images) {
-        itemService.modifyItem(itemId, name, Double.valueOf(price), description, condition, category, images);
+        itemService.modifyItem(itemId, name, Double.valueOf(price), description, condition, category, onSale, images);
     }
 
 }
