@@ -83,7 +83,7 @@ public class ItemService {
                 condition,
                 oldItem.postedDay(),
                 category,
-                false);
+                item.onSale());
         itemRepository.save(newItem);
 
         List<String> mediaLinks = Arrays.stream(images).parallel().map(image -> itemImageStorageService.save(image)).collect(Collectors.toList());
