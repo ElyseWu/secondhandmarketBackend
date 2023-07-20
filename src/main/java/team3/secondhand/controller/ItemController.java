@@ -16,8 +16,8 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping("/item/{itemId}")
-    public ItemDto getItemById(@PathVariable("itemId") Long itemId){
+    @GetMapping("/item/{item_id}")
+    public ItemDto getItemById(@PathVariable("item_id") Long itemId){
         return itemService.getItem(itemId);
     }
 
@@ -49,8 +49,13 @@ public class ItemController {
     }
 
     @PutMapping("/item/{itemId}")
+    public void modifyItem(@PathVariable("itemId") Long itemId) {
+        itemService.deleteItem(itemId);
+    }
+
+    @PutMapping("/item/{item_id}")
     public void modifyItem(
-            @PathVariable("itemId") Long itemId,
+            @PathVariable("item_id") Long itemId,
             @RequestParam("name") String name,
             @RequestParam("price") String price,
             @RequestParam("description") String description,
