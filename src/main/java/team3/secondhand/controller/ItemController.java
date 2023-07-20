@@ -2,7 +2,6 @@ package team3.secondhand.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.http.HttpStatus;
 import team3.secondhand.entity.ItemEntity;
 import team3.secondhand.model.ItemDto;
 import team3.secondhand.service.ItemService;
@@ -17,12 +16,12 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping("/item/{itemId}")
-    public ItemDto getItemById(@PathVariable("itemId") Long itemId){
+    @GetMapping("/item")
+    public ItemDto getItemById(@RequestParam("item_id") Long itemId){
         return itemService.getItem(itemId);
     }
 
-    @PostMapping("/items")
+    @PostMapping("/item")
     public void uploadItem(
             @RequestParam("name") String name,
             @RequestParam("price") String price,
@@ -31,7 +30,6 @@ public class ItemController {
             @RequestParam("category") String category,
             @RequestParam("images") MultipartFile[] images
     ) {
-
         // For the filed postedDay:
         //  it is the time when we upload item
         //  here I use LocalDate instead of Date
@@ -45,13 +43,12 @@ public class ItemController {
         itemService.upload(item, images);
     }
 
-    @DeleteMapping("/delete/{itemId}")
-    @ResponseStatus(value = HttpStatus.ACCEPTED)
-    public void deleteItem(@PathVariable Long itemId) {
+    @DeleteMapping("/item")
+    public void deleteItem(@RequestParam("item_id") Long itemId) {
         itemService.deleteItem(itemId);
     }
 
-    @PutMapping("/modify/{itemId}")
+    @PutMapping("/item")
     public void modifyItem(
             @RequestParam("item_id") Long itemId,
             @RequestParam("name") String name,
@@ -63,5 +60,4 @@ public class ItemController {
             @RequestParam("images") MultipartFile[] images) {
         itemService.modifyItem(itemId, name, Double.valueOf(price), description, condition, category, onSale, images);
     }
-
 }
