@@ -11,7 +11,7 @@ CREATE TABLE items
     condition     TEXT,
     posted_day    DATE,
     category      TEXT,
-    on_sale       BOOLEAN
+    is_sold       BOOLEAN
 );
 
 CREATE TABLE items_image(
