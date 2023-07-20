@@ -13,7 +13,7 @@ public record ItemDto(
         String itemCondition,
         LocalDate itemPostedDay,
         String itemCategory,
-        Boolean itemOnSale,
+        Boolean itemIsSold,
         List<String> itemImageUrls
 ) {
     public ItemDto(ItemEntity itemEntity, List<String> itemImageUrls) {
@@ -24,7 +24,7 @@ public record ItemDto(
                 itemEntity.condition(),
                 itemEntity.postedDay(),
                 itemEntity.category(),
-                itemEntity.onSale(),
+                itemEntity.isSold(),
                 itemImageUrls);
     }
 }
