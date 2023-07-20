@@ -4,7 +4,6 @@ import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import team3.secondhand.entity.ItemEntity;
 import team3.secondhand.entity.ItemImageEntity;
 
 import java.util.List;
