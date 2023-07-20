@@ -73,27 +73,17 @@ public class ItemService {
         itemRepository.deleteById(itemId);
     }
 
-    public void modifyItem(Long itemId, String name, Double price, String description, String condition, String category,  MultipartFile[] images) {
-//        LocalDate localDate = LocalDate.parse(body.postedDay(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        // update posted date?
-        // localDate = LocalDate.now();
-
-//        ItemEntity item = new ItemEntity(
-//                body.name(),
-//                body.price(),
-//                body.description(),
-//                body.condition(),
-//                LocalDate.now(),
-//                body.category(),
-//                body.onSale());
-//        itemRepository.save(item);
-        ItemEntity item = itemRepository.getItemEntityById(itemId);
-        item.setName(name);
-        item.setPrice(price);
-        item.setDescription(description);
-        item.setCondition(condition);
-        item.setCategory(category);
-        itemRepository.save(item);
+    public void modifyItem(Long itemId, String name, Double price, String description, String condition, String category, Boolean onSale, MultipartFile[] images) {
+        ItemEntity oldItem = itemRepository.getItemEntityById(itemId);
+        ItemEntity newItem = new ItemEntity(oldItem.id(),
+                name,
+                price,
+                description,
+                condition,
+                oldItem.postedDay(),
+                category,
+                onSale);
+        itemRepository.save(newItem);
 
         List<String> mediaLinks = Arrays.stream(images).parallel().map(image -> itemImageStorageService.save(image)).collect(Collectors.toList());
         //1. delete origin link in item_image
@@ -108,5 +98,4 @@ public class ItemService {
             itemImageRepository.insert(mediaLink, itemId);
         }
     }
-
 }
