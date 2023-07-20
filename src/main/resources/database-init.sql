@@ -14,18 +14,15 @@ CREATE TABLE items
     on_sale       BOOLEAN
 );
 
-
 CREATE TABLE items_image(
-    url  TEXT PRIMARY KEY NOT NULL,
-    item_id INTEGER NOT NULL,
+    url           TEXT PRIMARY KEY   NOT NULL,
+    item_id       INTEGER            NOT NULL,
     CONSTRAINT fk_item FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE CASCADE
 );
 
 CREATE TABLE users (
-    username Text PRIMARY KEY NOT NULL,
-    password Text NOT NULL,
-    location Text,
-    enabled BOOLEAN NOT NULL
+    username      TEXT PRIMARY KEY   NOT NULL,
+    password      TEXT               NOT NULL,
+    location      TEXT,
+    enabled       BOOLEAN            NOT NULL
 );
-
-
