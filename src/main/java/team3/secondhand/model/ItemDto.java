@@ -1,7 +1,6 @@
 package team3.secondhand.model;
 
 import team3.secondhand.entity.ItemEntity;
-import team3.secondhand.entity.ItemImageEntity;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,14 +17,14 @@ public record ItemDto(
         List<String> itemImageUrls
 ) {
     public ItemDto(ItemEntity itemEntity, List<String> itemImageUrls) {
-        this(itemEntity.getId(),
-                itemEntity.getName(),
-                itemEntity.getPrice(),
-                itemEntity.getDescription(),
-                itemEntity.getCondition(),
-                itemEntity.getPostedDay(),
-                itemEntity.getCategory(),
-                itemEntity.getOnSale(),
+        this(itemEntity.id(),
+                itemEntity.name(),
+                itemEntity.price(),
+                itemEntity.description(),
+                itemEntity.condition(),
+                itemEntity.postedDay(),
+                itemEntity.category(),
+                itemEntity.onSale(),
                 itemImageUrls);
     }
 }
