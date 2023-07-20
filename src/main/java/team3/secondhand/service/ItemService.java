@@ -74,7 +74,7 @@ public class ItemService {
     }
 
     @Transactional
-    public void modifyItem(Long itemId, String name, Double price, String description, String condition, String category, Boolean onSale, MultipartFile[] images) {
+    public void modifyItem(Long itemId, String name, Double price, String description, String condition, String category, MultipartFile[] images) {
         ItemEntity oldItem = itemRepository.getItemEntityById(itemId);
         ItemEntity newItem = new ItemEntity(oldItem.id(),
                 name,
@@ -83,7 +83,7 @@ public class ItemService {
                 condition,
                 oldItem.postedDay(),
                 category,
-                onSale);
+                false);
         itemRepository.save(newItem);
 
         List<String> mediaLinks = Arrays.stream(images).parallel().map(image -> itemImageStorageService.save(image)).collect(Collectors.toList());

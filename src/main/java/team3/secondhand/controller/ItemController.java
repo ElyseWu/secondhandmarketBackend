@@ -16,8 +16,8 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping("/item")
-    public ItemDto getItemById(@RequestParam("item_id") Long itemId){
+    @GetMapping("/item/{itemId}")
+    public ItemDto getItemById(@PathVariable("itemId") Long itemId){
         return itemService.getItem(itemId);
     }
 
@@ -43,21 +43,20 @@ public class ItemController {
         itemService.upload(item, images);
     }
 
-    @DeleteMapping("/item")
-    public void deleteItem(@RequestParam("item_id") Long itemId) {
+    @DeleteMapping("/item/{itemId}")
+    public void deleteItem(@PathVariable("itemId") Long itemId) {
         itemService.deleteItem(itemId);
     }
 
-    @PutMapping("/item")
+    @PutMapping("/item/{itemId}")
     public void modifyItem(
-            @RequestParam("item_id") Long itemId,
+            @PathVariable("itemId") Long itemId,
             @RequestParam("name") String name,
             @RequestParam("price") String price,
             @RequestParam("description") String description,
             @RequestParam("condition") String condition,
             @RequestParam("category") String category,
-            @RequestParam("on_sale") Boolean onSale,
             @RequestParam("images") MultipartFile[] images) {
-        itemService.modifyItem(itemId, name, Double.valueOf(price), description, condition, category, onSale, images);
+        itemService.modifyItem(itemId, name, Double.valueOf(price), description, condition, category, images);
     }
 }
