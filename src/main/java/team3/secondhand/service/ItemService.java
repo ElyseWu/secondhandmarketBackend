@@ -73,6 +73,7 @@ public class ItemService {
         itemRepository.deleteById(itemId);
     }
 
+    @Transactional
     public void modifyItem(Long itemId, String name, Double price, String description, String condition, String category, Boolean onSale, MultipartFile[] images) {
         ItemEntity oldItem = itemRepository.getItemEntityById(itemId);
         ItemEntity newItem = new ItemEntity(oldItem.id(),
