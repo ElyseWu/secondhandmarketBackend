@@ -28,7 +28,6 @@ public class ItemService {
         this.itemImageStorageService = itemImageStorageService;
     }
 
-
     // TODO: Add Cache features to fast-loading
     // TODO: Consider using Redis as our candidate solution
     public ItemDto getItem(Long itemId) {
@@ -54,16 +53,15 @@ public class ItemService {
     @Transactional
     public void upload(ItemEntity item, MultipartFile[] images) {
         // update item repository
-        itemRepository.save(item);
+        item = itemRepository.save(item);
 
         // update item image repository
         // When we use ItemImageStorage service generate a list of URLs
         // we can use for loop to generate it to item_image table
         List<String> mediaLinks = Arrays.stream(images).parallel().map(image -> itemImageStorageService.save(image)).collect(Collectors.toList());
         for (String mediaLink : mediaLinks) {
-            itemImageRepository.insert(mediaLink, item.getId());
+            itemImageRepository.insert(mediaLink, item.id());
         }
-
 
         // WEIRD BUG
         // ItemImageEntity itemImageEntity = new ItemImageEntity("https://fakeurl.com", item.getId());
