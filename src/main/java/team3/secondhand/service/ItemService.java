@@ -68,6 +68,7 @@ public class ItemService {
         // ItemImageRepository.save(itemImageEntity);
     }
 
+    @Transactional
     public void deleteItem(Long itemId) {
         itemRepository.deleteById(itemId);
     }
