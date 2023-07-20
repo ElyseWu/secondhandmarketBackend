@@ -1,7 +1,6 @@
 package team3.secondhand.service;
 
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import team3.secondhand.entity.ItemEntity;
@@ -14,11 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import team3.secondhand.model.ItemBody;
-import java.time.LocalDate;
-
-
 
 @Service
 public class ItemService {
