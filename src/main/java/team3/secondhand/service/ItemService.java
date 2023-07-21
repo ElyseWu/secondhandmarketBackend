@@ -9,10 +9,7 @@ import team3.secondhand.model.ItemDto;
 import team3.secondhand.repository.ItemImageRepository;
 import team3.secondhand.repository.ItemRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,6 +60,7 @@ public class ItemService {
             }
             items.add(new ItemDto(item, itemImageUrls));
         }
+        items.sort((one, two) -> (int) (one.itemId() - two.itemId()));
         return items;
     }
 
