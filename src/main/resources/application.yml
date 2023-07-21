@@ -19,3 +19,6 @@ spring:
 
 gcs:
   bucket: "secondhand-item-images"
+
+jwt:
+  secret: "secret"

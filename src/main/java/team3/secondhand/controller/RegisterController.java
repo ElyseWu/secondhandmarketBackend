@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import team3.secondhand.entity.UserEntity;
+import team3.secondhand.entity.UserRole;
 import team3.secondhand.service.RegisterService;
 
 @RestController
@@ -26,7 +27,8 @@ public class RegisterController {
             ) {
         // for application safety, we need use spring security PasswordEncoder class to encode user's password
         UserEntity userEntity = new UserEntity(userName, passwordEncoder.encode(password),location, true);
-        registerService.add(userEntity);
+        final UserRole role = UserRole.ROLE_USER;
+        registerService.add(userEntity, role);
     }
 
 }
