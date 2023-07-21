@@ -9,14 +9,14 @@ import team3.secondhand.exception.UserNotExistException;
 
 @ControllerAdvice
 public class CustomExceptionHandler {
-//    @ExceptionHandler(UserAlreadyExistException.class)
-//    public final ResponseEntity<String> handleUserAlreadyExistException(Exception ex) {
-//        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
-//    }
-//
-//    @ExceptionHandler(UserNotExistException.class)
-//    public final ResponseEntity<String> handleUserNotExistException(Exception ex) {
-//        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
-//    }
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public final ResponseEntity<String> handleUserAlreadyExistException(Exception ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserNotExistException.class)
+    public final ResponseEntity<String> handleUserNotExistException(Exception ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
 
 }
