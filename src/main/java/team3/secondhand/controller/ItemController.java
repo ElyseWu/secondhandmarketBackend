@@ -7,6 +7,7 @@ import team3.secondhand.model.ItemDto;
 import team3.secondhand.service.ItemService;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 public class ItemController {
@@ -16,8 +17,13 @@ public class ItemController {
         this.itemService = itemService;
     }
 
+    @GetMapping("/items")
+    public List<ItemDto> getItems() {
+        return itemService.getAllItems();
+    }
+
     @GetMapping("/item/{item_id}")
-    public ItemDto getItemById(@PathVariable("item_id") Long itemId){
+    public ItemDto getItemById(@PathVariable("item_id") Long itemId) {
         return itemService.getItem(itemId);
     }
 
