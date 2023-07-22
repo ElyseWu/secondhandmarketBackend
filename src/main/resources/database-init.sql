@@ -21,6 +21,13 @@ CREATE TABLE items_image(
     CONSTRAINT fk_item FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE CASCADE
 );
 
+CREATE TABLE users (
+                       username      TEXT PRIMARY KEY   NOT NULL,
+                       password      TEXT               NOT NULL,
+                       location      TEXT,
+                       enabled       BOOLEAN            NOT NULL
+);
+
 CREATE TABLE authority (
     username      TEXT PRIMARY KEY NOT NULL,
     authority     TEXT,
@@ -28,9 +35,3 @@ CREATE TABLE authority (
 );
 
 
-CREATE TABLE users (
-    username      TEXT PRIMARY KEY   NOT NULL,
-    password      TEXT               NOT NULL,
-    location      TEXT,
-    enabled       BOOLEAN            NOT NULL
-);
