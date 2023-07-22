@@ -4,11 +4,11 @@ import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import team3.secondhand.entity.UserEntity;
+import team3.secondhand.entity.AuthorityEntity;
 
 @Repository
-public interface UserRepository extends CrudRepository<UserEntity,String> {
+public interface AuthorityRepository extends CrudRepository<AuthorityEntity, String> {
     @Modifying
-    @Query("INSERT INTO users VALUES(:username, :password, :location, :enabled)")
-    void add(String username, String password, String location, Boolean enabled);
+    @Query("INSERT INTO authority VALUES(:username, :authority)")
+    void add(String username, String authority);
 }

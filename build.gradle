@@ -1,6 +1,8 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.1.1'
+	// using 2.7.12 version to avoid compile error
+	// https://stackoverflow.com/questions/55887390/cannot-access-javax-servlet-filter-class-file-for-javax-servlet-filter-not-foun
+	id 'org.springframework.boot' version '2.7.12'
 	id 'io.spring.dependency-management' version '1.1.0'
 }
 
@@ -18,8 +20,20 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// using spring security to realize user sign up/login/logout
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 	// using google cloud storage
 	implementation 'com.google.cloud:google-cloud-storage:2.22.2'
+
+	// using jwt to realize the token based authentication
+	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	// ******* ATTENTION ********
+	// use this library to avoid ClassLoader Error when we generate token
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
 	runtimeOnly 'org.postgresql:postgresql:42.6.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
