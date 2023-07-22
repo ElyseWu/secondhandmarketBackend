@@ -9,9 +9,7 @@ import team3.secondhand.model.ItemDto;
 import team3.secondhand.repository.ItemImageRepository;
 import team3.secondhand.repository.ItemRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,6 +43,25 @@ public class ItemService {
 
         // 4. construct ItemDto and return
         return new ItemDto(itemEntity, itemImageUrls);
+    }
+
+    public List<ItemDto> getAllItems() {
+        // iterator of all items
+        Iterator<ItemEntity> iterator = itemRepository.findAll().iterator();
+        List<ItemDto> items = new ArrayList<>();
+        while (iterator.hasNext()) {
+            ItemEntity item = iterator.next();
+            // get item images
+            List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(item.id());
+            List<String> itemImageUrls = new ArrayList<>();
+            // extract image urls
+            for (ItemImageEntity itemImageEntity : itemImageEntities) {
+                itemImageUrls.add(itemImageEntity.url());
+            }
+            items.add(new ItemDto(item, itemImageUrls));
+        }
+        items.sort((one, two) -> (int) (one.itemId() - two.itemId()));
+        return items;
     }
 
     // When calling this API, we should also use ItemImageStorageService to store image in CCS
