@@ -22,3 +22,8 @@ gcs:
 
 jwt:
   secret: "secret"
+
+elasticsearch:
+  address: "34.123.18.157:9200"
+  username: "team3"
+  password: "secondhand2023"

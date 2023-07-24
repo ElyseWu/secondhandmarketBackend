@@ -3,9 +3,11 @@ package team3.secondhand.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import team3.secondhand.entity.DescriptionEntity;
 import team3.secondhand.entity.ItemEntity;
 import team3.secondhand.entity.ItemImageEntity;
 import team3.secondhand.model.ItemDto;
+import team3.secondhand.repository.DescriptionRepository;
 import team3.secondhand.repository.ItemImageRepository;
 import team3.secondhand.repository.ItemRepository;
 
@@ -20,10 +22,13 @@ public class ItemService {
 
     private final ItemImageStorageService itemImageStorageService;
 
-    public ItemService(ItemRepository itemRepository, ItemImageRepository itemImageRepository, ItemImageStorageService itemImageStorageService) {
+    private final DescriptionRepository descriptionRepository;
+
+    public ItemService(ItemRepository itemRepository, ItemImageRepository itemImageRepository, ItemImageStorageService itemImageStorageService, DescriptionRepository descriptionRepository) {
         this.itemRepository = itemRepository;
         this.itemImageRepository = itemImageRepository;
         this.itemImageStorageService = itemImageStorageService;
+        this.descriptionRepository = descriptionRepository;
     }
 
     // TODO: Add Cache features to fast-loading
@@ -67,6 +72,10 @@ public class ItemService {
     // When calling this API, we should also use ItemImageStorageService to store image in CCS
     // ItemImageStorageService will store images provided by clients in GCS and generate a list of URLs for these images
     // we can use generated URLs to store in corresponding database table
+
+    // Meanwhile, because we need consider keywords search
+    // when we upload, we should save this item's DescriptionEntity in ElasticSearchRepository
+
     @Transactional
     public void upload(ItemEntity item, MultipartFile[] images) {
         // update item repository
@@ -79,6 +88,10 @@ public class ItemService {
         for (String mediaLink : mediaLinks) {
             itemImageRepository.insert(mediaLink, item.id());
         }
+
+        // construct and save corresponding DescriptionEntity in ElasticSearchRepository
+        DescriptionEntity descriptionEntity = new DescriptionEntity(item.id(), item.description());
+        descriptionRepository.save(descriptionEntity);
 
         // WEIRD BUG
         // ItemImageEntity itemImageEntity = new ItemImageEntity("https://fakeurl.com", item.getId());

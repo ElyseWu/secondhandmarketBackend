@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.sql.*;
 
-// set up new search feature branch
 @SpringBootApplication
 public class SecondhandApplication {
 
