@@ -45,6 +45,23 @@ public class ItemService {
         return new ItemDto(itemEntity, itemImageUrls);
     }
 
+    public List<ItemDto> getMyItems(String username) {
+        //1. find all itemEntities by username
+        //2. iterate itemEntities, find itemImageEntities by itemId
+        List<ItemEntity> itemEntities = itemRepository.getAllByUsername(username);
+        List<ItemDto> myItems = new ArrayList<>();
+        for(ItemEntity item: itemEntities) {
+            List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(item.id());
+            List<String> itemImageUrls = new ArrayList<>();
+            for (ItemImageEntity itemImageEntity : itemImageEntities) {
+                itemImageUrls.add(itemImageEntity.url());
+            }
+            myItems.add(new ItemDto(item, itemImageUrls));
+        }
+
+        return myItems;
+    }
+
     public List<ItemDto> getAllItems() {
         // iterator of all items
         Iterator<ItemEntity> iterator = itemRepository.findAll().iterator();
@@ -87,13 +104,15 @@ public class ItemService {
 
     @Transactional
     public void deleteItem(Long itemId) {
+
         itemRepository.deleteById(itemId);
     }
 
     @Transactional
-    public void modifyItem(Long itemId, String name, Double price, String description, String condition, String category, MultipartFile[] images) {
+    public void modifyItem(Long itemId, String username, String name, Double price, String description, String condition, String category, MultipartFile[] images) {
         ItemEntity oldItem = itemRepository.getItemEntityById(itemId);
         ItemEntity newItem = new ItemEntity(oldItem.id(),
+                username,
                 name,
                 price,
                 description,

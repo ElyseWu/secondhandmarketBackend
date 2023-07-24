@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Table("items")
 public record ItemEntity(
         @Id Long id,
+        String username,
         String name,
         Double price,
         String description,
