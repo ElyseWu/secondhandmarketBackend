@@ -39,4 +39,3 @@ CREATE TABLE items_image(
 
 
 
-
