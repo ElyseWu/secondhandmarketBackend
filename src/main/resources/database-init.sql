@@ -3,16 +3,31 @@ DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS authority;
 DROP TABLE IF EXISTS users;
 
+CREATE TABLE users (
+                       username      TEXT PRIMARY KEY   NOT NULL,
+                       password      TEXT               NOT NULL,
+                       location      TEXT,
+                       enabled       BOOLEAN            NOT NULL
+);
+
+CREATE TABLE authority (
+                           username      TEXT PRIMARY KEY NOT NULL,
+                           authority     TEXT,
+                           CONSTRAINT fk_user FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
+);
+
 CREATE TABLE items
 (
     id            SERIAL PRIMARY KEY NOT NULL,
+    username      TEXT               NOT NULL,
     name          TEXT               NOT NULL,
     price         NUMERIC            NOT NULL,
     description   TEXT,
     condition     TEXT,
     posted_day    DATE,
     category      TEXT,
-    is_sold       BOOLEAN
+    is_sold       BOOLEAN,
+    CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
 );
 
 CREATE TABLE items_image(
@@ -22,17 +37,5 @@ CREATE TABLE items_image(
 );
 
 
-CREATE TABLE users (
-    username      TEXT PRIMARY KEY   NOT NULL,
-    password      TEXT               NOT NULL,
-    location      TEXT,
-    enabled       BOOLEAN            NOT NULL
-);
-
-CREATE TABLE authority (
-    username      TEXT PRIMARY KEY NOT NULL,
-    authority     TEXT,
-    CONSTRAINT fk_user FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
-);
 
 
