@@ -34,6 +34,9 @@ dependencies {
 	// use this library to avoid ClassLoader Error when we generate token
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
+	// using elastic search to realize keywords search
+	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
 	runtimeOnly 'org.postgresql:postgresql:42.6.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
