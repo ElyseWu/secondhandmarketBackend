@@ -11,4 +11,6 @@ public interface UserRepository extends CrudRepository<UserEntity,String> {
     @Modifying
     @Query("INSERT INTO users VALUES(:username, :password, :location, :enabled)")
     void add(String username, String password, String location, Boolean enabled);
+
+    UserEntity findByUsername(String username);
 }

@@ -21,12 +21,12 @@ public class RegisterController {
 
     @PostMapping("/register")
     public void signUp(
-            @RequestParam("user_name") String userName,
+            @RequestParam("username") String username,
             @RequestParam("password") String password,
             @RequestParam("location") String location
             ) {
         // for application safety, we need use spring security PasswordEncoder class to encode user's password
-        UserEntity userEntity = new UserEntity(userName, passwordEncoder.encode(password),location, true);
+        UserEntity userEntity = new UserEntity(username, passwordEncoder.encode(password),location, true);
         final UserRole role = UserRole.ROLE_USER;
         registerService.add(userEntity, role);
     }

@@ -17,7 +17,7 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public TokenEntity authenticate(
-            @RequestParam("user_name") String userName,
+            @RequestParam("username") String userName,
             @RequestParam("password") String password)
     {
         UserEntity userEntity = new UserEntity(userName, password, null, true);
