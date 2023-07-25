@@ -10,4 +10,5 @@ import java.util.List;
 public interface ItemRepository extends CrudRepository<ItemEntity, Long> {
     ItemEntity getItemEntityById(Long itemId);
     List<ItemEntity> getAllByUsername(String username);
+    List<ItemEntity> findByCategory(String category);
 }

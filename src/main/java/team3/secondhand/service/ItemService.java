@@ -63,8 +63,25 @@ public class ItemService {
             }
             myItems.add(new ItemDto(item, itemImageUrls));
         }
+        myItems.sort((one, two) -> (int) (one.itemId() - two.itemId()));
 
         return myItems;
+    }
+
+    public List<ItemDto> getItemsByCategory(String category) {
+        List<ItemEntity> itemEntities = itemRepository.findByCategory(category);
+        List<ItemDto> items = new ArrayList<>();
+        for (ItemEntity item: itemEntities) {
+            List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(item.id());
+            List<String> itemUrls = new ArrayList<>();
+            for (ItemImageEntity itemImage : itemImageEntities) {
+                itemUrls.add(itemImage.url());
+            }
+            items.add(new ItemDto(item, itemUrls));
+        }
+        items.sort((one, two) -> (int) (one.itemId() - two.itemId()));
+
+        return items;
     }
 
     public List<ItemDto> getAllItems() {
