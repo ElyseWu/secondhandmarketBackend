@@ -35,6 +35,11 @@ public class ItemController {
         return itemService.getMyItems(principal.getName());
     }
 
+    @GetMapping("/items/{category}")
+    public List<ItemDto> getItemsByCategory(@PathVariable("category") String category) {
+        return itemService.getItemsByCategory(category);
+    }
+
     @GetMapping("/item/{item_id}")
     public ItemDto getItemById(@PathVariable("item_id") Long itemId) {
         return itemService.getItem(itemId);
