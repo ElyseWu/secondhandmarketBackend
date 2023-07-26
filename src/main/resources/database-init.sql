@@ -22,10 +22,10 @@ CREATE TABLE items
     username      TEXT               NOT NULL,
     name          TEXT               NOT NULL,
     price         NUMERIC            NOT NULL,
-    description   TEXT,
+    description   TEXT               NOT NULL,
     condition     TEXT,
     posted_day    DATE,
-    category      TEXT,
+    category      TEXT               NOT NULL,
     is_sold       BOOLEAN,
     CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
 );
