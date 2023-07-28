@@ -6,10 +6,12 @@ import org.springframework.web.multipart.MultipartFile;
 import team3.secondhand.entity.DescriptionEntity;
 import team3.secondhand.entity.ItemEntity;
 import team3.secondhand.entity.ItemImageEntity;
+import team3.secondhand.entity.UserEntity;
 import team3.secondhand.model.ItemDto;
 import team3.secondhand.repository.DescriptionRepository;
 import team3.secondhand.repository.ItemImageRepository;
 import team3.secondhand.repository.ItemRepository;
+import team3.secondhand.repository.UserRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,12 +25,16 @@ public class ItemService {
     private final ItemImageStorageService itemImageStorageService;
 
     private final DescriptionRepository descriptionRepository;
+    private final UserRepository userRepository;
 
-    public ItemService(ItemRepository itemRepository, ItemImageRepository itemImageRepository, ItemImageStorageService itemImageStorageService, DescriptionRepository descriptionRepository) {
+    public ItemService(ItemRepository itemRepository, ItemImageRepository itemImageRepository,
+                       ItemImageStorageService itemImageStorageService, DescriptionRepository descriptionRepository,
+                       UserRepository userRepository) {
         this.itemRepository = itemRepository;
         this.itemImageRepository = itemImageRepository;
         this.itemImageStorageService = itemImageStorageService;
         this.descriptionRepository = descriptionRepository;
+        this.userRepository = userRepository;
     }
 
     // TODO: Add Cache features to fast-loading
@@ -68,11 +74,19 @@ public class ItemService {
         return myItems;
     }
 
-    public List<ItemDto> getItemsByCategory(String category) {
+    public List<ItemDto> getItemsByCategory(String category, String city) {
 //        List<ItemEntity> itemEntities = itemRepository.findByCategory(category);
         List<ItemEntity> itemEntities = itemRepository.findAllByCategoryAndIsSold(category, false);
+        if (itemEntities == null) {
+            return new ArrayList<>();
+        }
         List<ItemDto> items = new ArrayList<>();
         for (ItemEntity item: itemEntities) {
+            String username = item.username();
+            UserEntity user = userRepository.findByUsername(username);
+            if (!user.location().equals(city)) {
+                continue;
+            }
             List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(item.id());
             List<String> itemUrls = new ArrayList<>();
             for (ItemImageEntity itemImage : itemImageEntities) {
