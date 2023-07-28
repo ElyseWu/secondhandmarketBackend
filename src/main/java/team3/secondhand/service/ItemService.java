@@ -69,7 +69,8 @@ public class ItemService {
     }
 
     public List<ItemDto> getItemsByCategory(String category) {
-        List<ItemEntity> itemEntities = itemRepository.findByCategory(category);
+//        List<ItemEntity> itemEntities = itemRepository.findByCategory(category);
+        List<ItemEntity> itemEntities = itemRepository.findAllByCategoryAndIsSold(category, false);
         List<ItemDto> items = new ArrayList<>();
         for (ItemEntity item: itemEntities) {
             List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(item.id());
@@ -86,7 +87,7 @@ public class ItemService {
 
     public List<ItemDto> getAllItems() {
         // iterator of all items
-        Iterator<ItemEntity> iterator = itemRepository.findAll().iterator();
+        Iterator<ItemEntity> iterator = itemRepository.findAllByIsSold(false).iterator();
         List<ItemDto> items = new ArrayList<>();
         while (iterator.hasNext()) {
             ItemEntity item = iterator.next();
@@ -164,5 +165,21 @@ public class ItemService {
         for (String mediaLink : mediaLinks) {
             itemImageRepository.insert(mediaLink, itemId);
         }
+    }
+
+    public void markItemSoldOrRelist(Long itemId) {
+        //1. get ItemEntity by id
+        //2. renew this item
+        ItemEntity item = itemRepository.getItemEntityById(itemId);
+        ItemEntity newItem = new ItemEntity(item.id(),
+                item.username(),
+                item.name(),
+                item.price(),
+                item.description(),
+                item.condition(),
+                item.postedDay(),
+                item.category(),
+                !item.isSold());
+        itemRepository.save(newItem);
     }
 }

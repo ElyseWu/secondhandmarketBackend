@@ -85,4 +85,10 @@ public class ItemController {
             @RequestParam("images") MultipartFile[] images) {
         itemService.modifyItem(itemId, principal.getName(), name, Double.valueOf(price), description, condition, category, images);
     }
+
+    //mark this item sold or relist
+    @PutMapping("/item/{item_id}/soldOrRelist")
+    public void markedAsDelete(@PathVariable("item_id") Long itemId) {
+        itemService.markItemSoldOrRelist(itemId);
+    }
 }
