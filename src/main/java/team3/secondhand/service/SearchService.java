@@ -49,6 +49,10 @@ public class SearchService {
         for(Long id : itemIds) {
             // 1. get ItemEntity
             ItemEntity itemEntity = itemRepository.getItemEntityById(id);
+            if (itemEntity.isSold()) {
+                continue;
+            }
+//            ItemEntity itemEntity = itemRepository.getItemEntityByIdAndIsSold(id, false);
             // 2. get ItemImageEntities
             List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(id);
 
