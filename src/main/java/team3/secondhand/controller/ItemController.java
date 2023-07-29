@@ -36,8 +36,9 @@ public class ItemController {
     }
 
     @GetMapping("/items/{category}")
-    public List<ItemDto> getItemsByCategory(@PathVariable("category") String category) {
-        return itemService.getItemsByCategory(category);
+    public List<ItemDto> getItemsByCategory(@PathVariable("category") String category,
+                                            @RequestParam(name = "city")String city) {
+        return itemService.getItemsByCategory(category, city);
     }
 
     @GetMapping("/item/{item_id}")
@@ -84,5 +85,11 @@ public class ItemController {
             @RequestParam("category") String category,
             @RequestParam("images") MultipartFile[] images) {
         itemService.modifyItem(itemId, principal.getName(), name, Double.valueOf(price), description, condition, category, images);
+    }
+
+    //mark this item sold or relist
+    @PutMapping("/item/{item_id}/soldOrRelist")
+    public void markedAsDelete(@PathVariable("item_id") Long itemId) {
+        itemService.markItemSoldOrRelist(itemId);
     }
 }

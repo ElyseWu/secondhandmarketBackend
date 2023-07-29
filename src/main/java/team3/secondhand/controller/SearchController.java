@@ -19,8 +19,9 @@ public class SearchController {
 
     @GetMapping(value = "/search")
     public List<ItemDto> searchItemsByKeyword(
-            @RequestParam(name = "keyword") String keyword
+            @RequestParam(name = "keyword") String keyword,
+            @RequestParam(name = "city") String city
     ) {
-        return searchService.searchByKeyword(keyword);
+        return searchService.searchByKeyword(keyword, city);
     }
 }

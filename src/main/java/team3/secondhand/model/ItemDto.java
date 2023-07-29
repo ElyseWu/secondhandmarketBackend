@@ -2,6 +2,7 @@ package team3.secondhand.model;
 
 import team3.secondhand.entity.ItemEntity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public record ItemDto(
         String itemCategory,
         Boolean itemIsSold,
         List<String> itemImageUrls
-) {
+) implements Serializable {
     public ItemDto(ItemEntity itemEntity, List<String> itemImageUrls) {
         this(itemEntity.id(),
                 itemEntity.name(),

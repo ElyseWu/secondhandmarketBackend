@@ -13,4 +13,5 @@ public interface UserRepository extends CrudRepository<UserEntity,String> {
     void add(String username, String password, String location, Boolean enabled);
 
     UserEntity findByUsername(String username);
+
 }

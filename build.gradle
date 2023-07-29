@@ -39,6 +39,10 @@ dependencies {
 
 	runtimeOnly 'org.postgresql:postgresql:42.6.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//using cache
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {
