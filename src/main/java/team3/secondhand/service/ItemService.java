@@ -89,7 +89,7 @@ public class ItemService {
         for (ItemEntity item: itemEntities) {
             String username = item.username();
             UserEntity user = userRepository.findByUsername(username);
-            if (!user.location().equals(city)) {
+            if (!user.location().toUpperCase().contains(city.toUpperCase())) {
                 continue;
             }
             List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(item.id());

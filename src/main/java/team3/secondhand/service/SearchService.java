@@ -63,7 +63,7 @@ public class SearchService {
             }
             String username = itemEntity.username();
             UserEntity user = userRepository.findByUsername(username);
-            if (!user.location().equals(city)) {
+            if (!user.location().toUpperCase().contains(city.toUpperCase())) {
                 continue;
             }
 //            ItemEntity itemEntity = itemRepository.getItemEntityByIdAndIsSold(id, false);
