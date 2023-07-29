@@ -16,6 +16,10 @@ spring:
     init:
       mode: ${INIT_DB:never}
       schema-locations: "classpath:database-init.sql"
+  cache:
+    redis:
+      time-to-live: 100S
+    type: redis
 
 gcs:
   bucket: "secondhand-item-images"
@@ -27,3 +31,5 @@ elasticsearch:
   address: "34.123.18.157:9200"
   username: "team3"
   password: "secondhand2023"
+
+

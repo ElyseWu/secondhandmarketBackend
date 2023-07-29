@@ -1,5 +1,7 @@
 package team3.secondhand.service;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +41,7 @@ public class ItemService {
 
     // TODO: Add Cache features to fast-loading
     // TODO: Consider using Redis as our candidate solution
+    @Cacheable(cacheNames = "items", key = "#itemId")
     public ItemDto getItem(Long itemId) {
         // 1. get ItemEntity
         ItemEntity itemEntity = itemRepository.getItemEntityById(itemId);
@@ -56,6 +59,7 @@ public class ItemService {
         return new ItemDto(itemEntity, itemImageUrls);
     }
 
+    @Cacheable("items")
     public List<ItemDto> getMyItems(String username) {
         //1. find all itemEntities by username
         //2. iterate itemEntities, find itemImageEntities by itemId
@@ -74,6 +78,7 @@ public class ItemService {
         return myItems;
     }
 
+    @Cacheable("items")
     public List<ItemDto> getItemsByCategory(String category, String city) {
 //        List<ItemEntity> itemEntities = itemRepository.findByCategory(category);
         List<ItemEntity> itemEntities = itemRepository.findAllByCategoryAndIsSold(category, false);
@@ -99,6 +104,7 @@ public class ItemService {
         return items;
     }
 
+    @Cacheable("items")
     public List<ItemDto> getAllItems() {
         // iterator of all items
         Iterator<ItemEntity> iterator = itemRepository.findAllByIsSold(false).iterator();
@@ -125,6 +131,7 @@ public class ItemService {
     // Meanwhile, because we need consider keywords search
     // when we upload, we should save this item's DescriptionEntity in ElasticSearchRepository
 
+    @CacheEvict(cacheNames = "items")
     @Transactional
     public void upload(ItemEntity item, MultipartFile[] images) {
         // update item repository
@@ -147,12 +154,14 @@ public class ItemService {
         // ItemImageRepository.save(itemImageEntity);
     }
 
+    @CacheEvict(cacheNames = "items", key = "#itemId")
     @Transactional
     public void deleteItem(Long itemId) {
 
         itemRepository.deleteById(itemId);
     }
 
+    @CacheEvict(cacheNames = "items", key = "#itemId")
     @Transactional
     public void modifyItem(Long itemId, String username, String name, Double price, String description, String condition, String category, MultipartFile[] images) {
         ItemEntity oldItem = itemRepository.getItemEntityById(itemId);
@@ -181,6 +190,7 @@ public class ItemService {
         }
     }
 
+    @CacheEvict(cacheNames = "items", key = "#itemId")
     public void markItemSoldOrRelist(Long itemId) {
         //1. get ItemEntity by id
         //2. renew this item
