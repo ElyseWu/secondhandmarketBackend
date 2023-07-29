@@ -1,5 +1,6 @@
 package team3.secondhand.service;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import team3.secondhand.entity.DescriptionEntity;
 import team3.secondhand.entity.ItemEntity;
@@ -31,6 +32,7 @@ public class SearchService {
         this.userRepository = userRepository;
     }
 
+    @Cacheable("items")
     public List<ItemDto> searchByKeyword(String keyword, String city) {
         // step1: using passed keyword to search corresponding description entity
         List<DescriptionEntity> descriptionEntities = descriptionRepository.findByDescriptionContaining(keyword);
@@ -76,6 +78,8 @@ public class SearchService {
             ItemDto itemDto = new ItemDto(itemEntity, itemImageUrls);
             items.add(itemDto);
         }
+
+        items.sort((one, two) -> (int) (one.itemId() - two.itemId()));
         return items;
     }
 
