@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ChatRepository extends CrudRepository<ChatEntity, Long> {
     @Modifying
-    @Query("INSERT INTO chats VALUES(:username1, :username2)")
+    @Query("INSERT INTO chats(username1, username2) VALUES(:username1, :username2)")
     void insert(String username1, String username2);
 
     @Query("SELECT * FROM chats WHERE username1 = :username OR username2 = :username")

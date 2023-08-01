@@ -42,5 +42,4 @@ public class ChatController {
     public List<MessageEntity> getAllMessages(@PathVariable("chat_id") Long chatId) {
         return chatService.getAllMessages(chatId);
     }
-
 }
