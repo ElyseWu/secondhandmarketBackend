@@ -26,19 +26,15 @@ public class ItemController {
     }
 
     @GetMapping("/items")
-    public List<ItemDto> getItems() {
-        return itemService.getAllItems();
+    public List<ItemDto> getItems(@RequestParam(name = "lat") double lat,
+                                  @RequestParam(name = "lon") double lon,
+                                  @RequestParam(name = "distance", required=false) String distance) {
+        return itemService.getAllItems(lat, lon, distance);
     }
 
     @GetMapping("/items/my")
     public List<ItemDto> getMyItems(Principal principal) {
         return itemService.getMyItems(principal.getName());
-    }
-
-    @GetMapping("/items/{category}")
-    public List<ItemDto> getItemsByCategory(@PathVariable("category") String category,
-                                            @RequestParam(name = "city")String city) {
-        return itemService.getItemsByCategory(category, city);
     }
 
     @GetMapping("/item/{item_id}")
@@ -54,6 +50,8 @@ public class ItemController {
             @RequestParam("description") String description,
             @RequestParam("condition") String condition,
             @RequestParam("category") String category,
+            @RequestParam(name = "lat") double lat,
+            @RequestParam(name = "lon") double lon,
             @RequestParam("images") MultipartFile[] images
     ) {
         // For the filed postedDay:
@@ -65,7 +63,7 @@ public class ItemController {
         // In the initial state, when we upload an item
         // the item onSale state must be false
         ItemEntity item = new ItemEntity(null, principal.getName(), name, Double.valueOf(price), description, condition, LocalDate.now(), category, false);
-        itemService.upload(item, images);
+        itemService.upload(item, images, lat, lon);
     }
 
     @DeleteMapping("/item/{item_id}")

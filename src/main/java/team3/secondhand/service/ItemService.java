@@ -2,18 +2,13 @@ package team3.secondhand.service;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import team3.secondhand.entity.DescriptionEntity;
-import team3.secondhand.entity.ItemEntity;
-import team3.secondhand.entity.ItemImageEntity;
-import team3.secondhand.entity.UserEntity;
+import team3.secondhand.entity.*;
 import team3.secondhand.model.ItemDto;
-import team3.secondhand.repository.DescriptionRepository;
-import team3.secondhand.repository.ItemImageRepository;
-import team3.secondhand.repository.ItemRepository;
-import team3.secondhand.repository.UserRepository;
+import team3.secondhand.repository.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,16 +22,16 @@ public class ItemService {
     private final ItemImageStorageService itemImageStorageService;
 
     private final DescriptionRepository descriptionRepository;
-    private final UserRepository userRepository;
+    private final LocationRepository locationRepository;
 
     public ItemService(ItemRepository itemRepository, ItemImageRepository itemImageRepository,
                        ItemImageStorageService itemImageStorageService, DescriptionRepository descriptionRepository,
-                       UserRepository userRepository) {
+                       LocationRepository locationRepository) {
         this.itemRepository = itemRepository;
         this.itemImageRepository = itemImageRepository;
         this.itemImageStorageService = itemImageStorageService;
+        this.locationRepository = locationRepository;
         this.descriptionRepository = descriptionRepository;
-        this.userRepository = userRepository;
     }
 
     @Cacheable(cacheNames = "items", key = "#itemId")
@@ -77,39 +72,15 @@ public class ItemService {
     }
 
     @Cacheable("items")
-    public List<ItemDto> getItemsByCategory(String category, String city) {
-//        List<ItemEntity> itemEntities = itemRepository.findByCategory(category);
-        List<ItemEntity> itemEntities = itemRepository.findAllByCategoryAndIsSold(category, false);
-        if (itemEntities == null) {
-            return new ArrayList<>();
-        }
+    public List<ItemDto> getAllItems(double lat, double lon, String distance) {
+        // iterator of all items
+        Set<Long> itemIdsByDistance = locationRepository.searchByDistance(lat, lon, distance);
         List<ItemDto> items = new ArrayList<>();
-        for (ItemEntity item: itemEntities) {
-            String username = item.username();
-            UserEntity user = userRepository.findByUsername(username);
-            if (!user.location().toUpperCase().contains(city.toUpperCase())) {
+        for (Long id: itemIdsByDistance) {
+            ItemEntity item = itemRepository.getItemEntityById(id);
+            if (item.isSold()) {
                 continue;
             }
-            List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(item.id());
-            List<String> itemUrls = new ArrayList<>();
-            for (ItemImageEntity itemImage : itemImageEntities) {
-                itemUrls.add(itemImage.url());
-            }
-            items.add(new ItemDto(item, itemUrls));
-        }
-        items.sort((one, two) -> (int) (one.itemId() - two.itemId()));
-
-        return items;
-    }
-
-    @Cacheable("items")
-    public List<ItemDto> getAllItems() {
-        // iterator of all items
-        Iterator<ItemEntity> iterator = itemRepository.findAllByIsSold(false).iterator();
-        List<ItemDto> items = new ArrayList<>();
-        while (iterator.hasNext()) {
-            ItemEntity item = iterator.next();
-            // get item images
             List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(item.id());
             List<String> itemImageUrls = new ArrayList<>();
             // extract image urls
@@ -118,6 +89,19 @@ public class ItemService {
             }
             items.add(new ItemDto(item, itemImageUrls));
         }
+//        Iterator<ItemEntity> iterator = itemRepository.findAllByIsSold(false).iterator();
+//        List<ItemDto> items = new ArrayList<>();
+//        while (iterator.hasNext()) {
+//            ItemEntity item = iterator.next();
+//            // get item images
+//            List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(item.id());
+//            List<String> itemImageUrls = new ArrayList<>();
+//            // extract image urls
+//            for (ItemImageEntity itemImageEntity : itemImageEntities) {
+//                itemImageUrls.add(itemImageEntity.url());
+//            }
+//            items.add(new ItemDto(item, itemImageUrls));
+//        }
         items.sort((one, two) -> (int) (one.itemId() - two.itemId()));
         return items;
     }
@@ -131,7 +115,7 @@ public class ItemService {
 
     @CacheEvict(cacheNames = "items")
     @Transactional
-    public void upload(ItemEntity item, MultipartFile[] images) {
+    public void upload(ItemEntity item, MultipartFile[] images, double lat, double lon) {
         // update item repository
         item = itemRepository.save(item);
 
@@ -147,9 +131,10 @@ public class ItemService {
         DescriptionEntity descriptionEntity = new DescriptionEntity(item.id(), item.description());
         descriptionRepository.save(descriptionEntity);
 
-        // WEIRD BUG
-        // ItemImageEntity itemImageEntity = new ItemImageEntity("https://fakeurl.com", item.getId());
-        // ItemImageRepository.save(itemImageEntity);
+        //save location
+        Location location = new Location(item.id(), new GeoPoint(lat, lon));
+        locationRepository.save(location);
+
     }
 
     @CacheEvict(cacheNames = "items", key = "#itemId")
