@@ -5,7 +5,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Document(indexName = "descriptionindex")
+@Document(indexName = "descriptionindex" ,createIndex = false)
 public record DescriptionEntity(
         @Id
         @Field(type = FieldType.Long)

@@ -1,20 +1,15 @@
 package team3.secondhand.entity;
 
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDate;
 
-@Table("items")
-public record ItemEntity(
+@Table("favorite_items")
+public record FavoriteItemEntity(
         @Id Long id,
         String username,
-        String name,
-        Double price,
-        String description,
-        String condition,
-        LocalDate postedDay,
-        String category,
-        Boolean isSold
+        Long itemId
 ) {
 }

@@ -14,4 +14,6 @@ import java.util.List;
 public interface DescriptionRepository extends ElasticsearchRepository<DescriptionEntity, Long> {
 
     List<DescriptionEntity> findByDescriptionContaining(String keyword);
+
+
 }

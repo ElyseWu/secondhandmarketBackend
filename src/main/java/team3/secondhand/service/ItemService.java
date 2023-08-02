@@ -34,8 +34,6 @@ public class ItemService {
         this.descriptionRepository = descriptionRepository;
     }
 
-    // TODO: Add Cache features to fast-loading
-    // TODO: Consider using Redis as our candidate solution
     @Cacheable(cacheNames = "items", key = "#itemId")
     public ItemDto getItem(Long itemId) {
         // 1. get ItemEntity
