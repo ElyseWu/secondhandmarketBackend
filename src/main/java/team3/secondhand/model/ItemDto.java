@@ -8,6 +8,7 @@ import java.util.List;
 
 public record ItemDto(
         Long itemId,
+        String userName,
         String itemName,
         Double itemPrice,
         String itemDescription,
@@ -19,6 +20,7 @@ public record ItemDto(
 ) implements Serializable {
     public ItemDto(ItemEntity itemEntity, List<String> itemImageUrls) {
         this(itemEntity.id(),
+                itemEntity.username(),
                 itemEntity.name(),
                 itemEntity.price(),
                 itemEntity.description(),
