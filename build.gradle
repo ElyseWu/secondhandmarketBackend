@@ -43,6 +43,9 @@ dependencies {
 	//using cache
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	//google map service
+	implementation 'com.google.maps:google-maps-services:0.18.1'
 }
 
 tasks.named('test') {
