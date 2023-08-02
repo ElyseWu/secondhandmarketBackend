@@ -45,6 +45,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/favorite/*").hasAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.DELETE, "/favorite/*").hasAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.GET, "/my_favorites").hasAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.POST, "/ask/*").hasAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.POST, "reply/*").hasAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.GET, "/chats").hasAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.GET, "/messages/*").hasAuthority("ROLE_USER")
 
                 .anyRequest().authenticated()
                 .and()
