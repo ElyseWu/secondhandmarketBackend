@@ -9,6 +9,7 @@ import team3.secondhand.repository.ItemRepository;
 import team3.secondhand.repository.MessageRepository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -19,6 +20,8 @@ public class ChatService {
 
     private final ItemRepository itemRepository;
 
+    private static final String DATE_FORMATTER= "yyyy-MM-dd HH:mm:ss";
+
     public ChatService(ChatRepository chatRepository, MessageRepository messageRepository, ItemRepository itemRepository) {
         this.chatRepository = chatRepository;
         this.messageRepository = messageRepository;
@@ -26,6 +29,10 @@ public class ChatService {
     }
 
     public void askForSeller(Long itemId, String senderName, String content) {
+        // get current time and format it
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER);
+        LocalDateTime localDateTime = LocalDateTime.now();
+
         // step1: create a chat between sender(buyer) and receiver(seller)
         ItemEntity itemEntity = itemRepository.getItemEntityById(itemId);
         String receiverName = itemEntity.username();
@@ -36,14 +43,18 @@ public class ChatService {
         // step2: send a default message which contains item info to seller
         StringBuilder defaultMessage = new StringBuilder();
         defaultMessage.append("Hi, I am ").append(senderName).append(", and I am interested in the product: ").append(itemName);
-        messageRepository.insert(defaultMessage.toString(), senderName, receiverName, LocalDateTime.now(), chatId);
+        messageRepository.insert(defaultMessage.toString(), senderName, receiverName, LocalDateTime.parse(localDateTime.format(formatter), formatter), chatId);
 
         // step3: send a custom message(content) to seller
-        messageRepository.insert(content, senderName, receiverName, LocalDateTime.now(), chatId);
+        messageRepository.insert(content, senderName, receiverName, LocalDateTime.parse(localDateTime.format(formatter), formatter), chatId);
     }
 
 
     public void reply(String content, Long chatId, String senderName) {
+        // get current time and format it
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER);
+        LocalDateTime localDateTime = LocalDateTime.now();
+
         // step1: use chatEntity to get receiver name
         ChatEntity chatEntity = chatRepository.getChatEntityById(chatId);
         String receiverName = null;
@@ -53,7 +64,7 @@ public class ChatService {
             receiverName = chatEntity.username1();
         }
         // step2: construct message entity and insert it into message repository
-        messageRepository.insert(content, senderName, receiverName, LocalDateTime.now(), chatId);
+        messageRepository.insert(content, senderName, receiverName, LocalDateTime.parse(localDateTime.format(formatter), formatter), chatId);
     }
 
 
