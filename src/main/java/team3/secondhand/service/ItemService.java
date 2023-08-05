@@ -34,7 +34,7 @@ public class ItemService {
         this.descriptionRepository = descriptionRepository;
     }
 
-    @Cacheable(cacheNames = "items", key = "#itemId")
+//    @Cacheable(cacheNames = "items", key = "#itemId")
     public ItemDto getItem(Long itemId) {
         // 1. get ItemEntity
         ItemEntity itemEntity = itemRepository.getItemEntityById(itemId);
@@ -52,7 +52,7 @@ public class ItemService {
         return new ItemDto(itemEntity, itemImageUrls);
     }
 
-    @Cacheable("items")
+//    @Cacheable("items")
     public List<ItemDto> getMyItems(String username) {
         //1. find all itemEntities by username
         //2. iterate itemEntities, find itemImageEntities by itemId
@@ -71,7 +71,7 @@ public class ItemService {
         return myItems;
     }
 
-    @Cacheable("items")
+//    @Cacheable("items")
     public List<ItemDto> getAllItems(double lat, double lon, String distance) {
         // iterator of all items
         Set<Long> itemIdsByDistance = locationRepository.searchByDistance(lat, lon, distance);
@@ -113,7 +113,7 @@ public class ItemService {
     // Meanwhile, because we need consider keywords search
     // when we upload, we should save this item's DescriptionEntity in ElasticSearchRepository
 
-    @CacheEvict(cacheNames = "items")
+//    @CacheEvict(cacheNames = "items")
     @Transactional
     public void upload(ItemEntity item, MultipartFile[] images, double lat, double lon) {
         // update item repository
@@ -137,14 +137,14 @@ public class ItemService {
 
     }
 
-    @CacheEvict(cacheNames = "items", key = "#itemId")
+//    @CacheEvict(cacheNames = "items", key = "#itemId")
     @Transactional
     public void deleteItem(Long itemId) {
 
         itemRepository.deleteById(itemId);
     }
 
-    @CacheEvict(cacheNames = "items", key = "#itemId")
+//    @CacheEvict(cacheNames = "items", key = "#itemId")
     @Transactional
     public void modifyItem(Long itemId, String username, String name, Double price, String description, String condition, String category, MultipartFile[] images) {
         ItemEntity oldItem = itemRepository.getItemEntityById(itemId);
@@ -173,7 +173,7 @@ public class ItemService {
         }
     }
 
-    @CacheEvict(cacheNames = "items", key = "#itemId")
+//    @CacheEvict(cacheNames = "items", key = "#itemId")
     public void markItemSoldOrRelist(Long itemId) {
         //1. get ItemEntity by id
         //2. renew this item
