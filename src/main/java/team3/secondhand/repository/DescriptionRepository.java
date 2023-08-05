@@ -1,6 +1,7 @@
 package team3.secondhand.repository;
 
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.stereotype.Repository;
 import team3.secondhand.entity.DescriptionEntity;
 
 import java.util.List;
@@ -11,9 +12,7 @@ import java.util.List;
 // -> and it will return list of valid DescriptionEntity of corresponding item
 // which its description has our search keywords
 
+@Repository
 public interface DescriptionRepository extends ElasticsearchRepository<DescriptionEntity, Long> {
-
     List<DescriptionEntity> findByDescriptionContaining(String keyword);
-
-
 }
