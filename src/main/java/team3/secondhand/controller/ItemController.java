@@ -36,9 +36,8 @@ public class ItemController {
     }
 
     @GetMapping("/items/{category}")
-    public List<ItemDto> getItemsByCategory(@PathVariable("category") String category,
-                                            @RequestParam(name = "city")String city) {
-        return itemService.getItemsByCategory(category, city);
+    public List<ItemDto> getItemsByCategory(@PathVariable("category") String category) {
+        return itemService.getItemsByCategory(category);
     }
 
     @GetMapping("/item/{item_id}")

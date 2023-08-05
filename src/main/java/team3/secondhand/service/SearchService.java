@@ -33,7 +33,7 @@ public class SearchService {
     }
 
     @Cacheable("items")
-    public List<ItemDto> searchByKeyword(String keyword, String city) {
+    public List<ItemDto> searchByKeyword(String keyword) {
         // step1: using passed keyword to search corresponding description entity
         List<DescriptionEntity> descriptionEntities = descriptionRepository.findByDescriptionContaining(keyword);
         if (descriptionEntities == null) {
@@ -61,11 +61,7 @@ public class SearchService {
             if (itemEntity.isSold()) {
                 continue;
             }
-            String username = itemEntity.username();
-            UserEntity user = userRepository.findByUsername(username);
-            if (!user.location().toUpperCase().contains(city.toUpperCase())) {
-                continue;
-            }
+
 //            ItemEntity itemEntity = itemRepository.getItemEntityByIdAndIsSold(id, false);
             // 2. get ItemImageEntities
             List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(id);

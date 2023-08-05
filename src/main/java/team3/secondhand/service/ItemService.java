@@ -39,7 +39,7 @@ public class ItemService {
         this.userRepository = userRepository;
     }
 
-    @Cacheable(cacheNames = "items", key = "#itemId")
+//    @Cacheable(cacheNames = "items", key = "#itemId")
     public ItemDto getItem(Long itemId) {
         // 1. get ItemEntity
         ItemEntity itemEntity = itemRepository.getItemEntityById(itemId);
@@ -57,7 +57,7 @@ public class ItemService {
         return new ItemDto(itemEntity, itemImageUrls);
     }
 
-    @Cacheable("items")
+//    @Cacheable("items")
     public List<ItemDto> getMyItems(String username) {
         //1. find all itemEntities by username
         //2. iterate itemEntities, find itemImageEntities by itemId
@@ -76,8 +76,8 @@ public class ItemService {
         return myItems;
     }
 
-    @Cacheable("items")
-    public List<ItemDto> getItemsByCategory(String category, String city) {
+//    @Cacheable("items")
+    public List<ItemDto> getItemsByCategory(String category) {
 //        List<ItemEntity> itemEntities = itemRepository.findByCategory(category);
         List<ItemEntity> itemEntities = itemRepository.findAllByCategoryAndIsSold(category, false);
         if (itemEntities == null) {
@@ -86,10 +86,6 @@ public class ItemService {
         List<ItemDto> items = new ArrayList<>();
         for (ItemEntity item: itemEntities) {
             String username = item.username();
-            UserEntity user = userRepository.findByUsername(username);
-            if (!user.location().toUpperCase().contains(city.toUpperCase())) {
-                continue;
-            }
             List<ItemImageEntity> itemImageEntities = itemImageRepository.getItemImageEntitiesByItemId(item.id());
             List<String> itemUrls = new ArrayList<>();
             for (ItemImageEntity itemImage : itemImageEntities) {
@@ -102,7 +98,7 @@ public class ItemService {
         return items;
     }
 
-    @Cacheable("items")
+//    @Cacheable("items")
     public List<ItemDto> getAllItems() {
         // iterator of all items
         Iterator<ItemEntity> iterator = itemRepository.findAllByIsSold(false).iterator();
@@ -129,7 +125,7 @@ public class ItemService {
     // Meanwhile, because we need consider keywords search
     // when we upload, we should save this item's DescriptionEntity in ElasticSearchRepository
 
-    @CacheEvict(cacheNames = "items")
+//    @CacheEvict(cacheNames = "items")
     @Transactional
     public void upload(ItemEntity item, MultipartFile[] images) {
         // update item repository
@@ -152,14 +148,17 @@ public class ItemService {
         // ItemImageRepository.save(itemImageEntity);
     }
 
-    @CacheEvict(cacheNames = "items", key = "#itemId")
+//    @CacheEvict(cacheNames = "items", key = "#itemId")
     @Transactional
     public void deleteItem(Long itemId) {
-
+        // When delete item, we should do 2 things
+        // 1. delete item from local database
+        // 2. delete its corresponding description entity in ElasticSearch index
+        descriptionRepository.deleteById(itemId);
         itemRepository.deleteById(itemId);
     }
 
-    @CacheEvict(cacheNames = "items", key = "#itemId")
+//    @CacheEvict(cacheNames = "items", key = "#itemId")
     @Transactional
     public void modifyItem(Long itemId, String username, String name, Double price, String description, String condition, String category, MultipartFile[] images) {
         ItemEntity oldItem = itemRepository.getItemEntityById(itemId);
@@ -186,9 +185,13 @@ public class ItemService {
         for (String mediaLink : mediaLinks) {
             itemImageRepository.insert(mediaLink, itemId);
         }
+
+        // also we need update its corresponding description entity in ElasticSearch
+        DescriptionEntity descriptionEntity = new DescriptionEntity(itemId, description);
+        descriptionRepository.save(descriptionEntity);
     }
 
-    @CacheEvict(cacheNames = "items", key = "#itemId")
+//    @CacheEvict(cacheNames = "items", key = "#itemId")
     public void markItemSoldOrRelist(Long itemId) {
         //1. get ItemEntity by id
         //2. renew this item
