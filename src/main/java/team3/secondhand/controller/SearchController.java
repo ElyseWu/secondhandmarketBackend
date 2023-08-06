@@ -35,4 +35,5 @@ public class SearchController {
                                           @RequestParam(name = "distance", required=false) String distance) {
         return searchService.searchByCategory(category, lat, lon, distance);
     }
+
 }

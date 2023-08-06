@@ -10,8 +10,7 @@ import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 @Document(indexName = "loc")
 public record Location(
         @Id
-        @Field(type = FieldType.Long
-        )
+        @Field(type = FieldType.Long)
         Long id,
 
         @GeoPointField

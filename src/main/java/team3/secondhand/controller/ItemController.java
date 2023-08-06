@@ -52,6 +52,8 @@ public class ItemController {
             @RequestParam("category") String category,
             @RequestParam(name = "lat") double lat,
             @RequestParam(name = "lon") double lon,
+//            @RequestParam(name = "lat") String lat,
+//            @RequestParam(name = "lon") String lon,
             @RequestParam("images") MultipartFile[] images
     ) {
         // For the filed postedDay:
@@ -67,9 +69,9 @@ public class ItemController {
     }
 
     @DeleteMapping("/item/{item_id}")
-    public void deleteItem(@PathVariable("item_id") Long itemId) {
+    public void deleteItem(@PathVariable("item_id") Long itemId, Principal principal) {
 
-        itemService.deleteItem(itemId);
+        itemService.deleteItem(itemId, principal.getName());
     }
 
     @PutMapping("/item/{item_id}")
