@@ -1,5 +1,6 @@
 package team3.secondhand.service;
 
+import co.elastic.clients.elasticsearch.security.User;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
@@ -10,6 +11,7 @@ import team3.secondhand.entity.*;
 import team3.secondhand.model.ItemDto;
 import team3.secondhand.repository.*;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -75,9 +77,11 @@ public class ItemService {
     public List<ItemDto> getAllItems(double lat, double lon, String distance) {
         // iterator of all items
         Set<Long> itemIdsByDistance = locationRepository.searchByDistance(lat, lon, distance);
+//        System.out.println(itemIdsByDistance);
         List<ItemDto> items = new ArrayList<>();
         for (Long id: itemIdsByDistance) {
             ItemEntity item = itemRepository.getItemEntityById(id);
+//            System.out.println(item);
             if (item.isSold()) {
                 continue;
             }
@@ -134,13 +138,14 @@ public class ItemService {
         //save location
         Location location = new Location(item.id(), new GeoPoint(lat, lon));
         locationRepository.save(location);
+        System.out.println(location);
 
     }
 
     @CacheEvict(cacheNames = "items", key = "#itemId")
     @Transactional
-    public void deleteItem(Long itemId) {
-
+    public void deleteItem(Long itemId, String username) {
+        locationRepository.deleteById(itemId);
         itemRepository.deleteById(itemId);
     }
 
