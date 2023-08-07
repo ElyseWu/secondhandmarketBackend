@@ -1,6 +1,8 @@
 package team3.secondhand.model;
 
+import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import team3.secondhand.entity.ItemEntity;
+import team3.secondhand.entity.Location;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -16,9 +18,11 @@ public record ItemDto(
         LocalDate itemPostedDay,
         String itemCategory,
         Boolean itemIsSold,
-        List<String> itemImageUrls
+        List<String> itemImageUrls,
+        Double lat,
+        Double lon
 ) implements Serializable {
-    public ItemDto(ItemEntity itemEntity, List<String> itemImageUrls) {
+    public ItemDto(ItemEntity itemEntity, List<String> itemImageUrls, Double lat, Double lon) {
         this(itemEntity.id(),
                 itemEntity.username(),
                 itemEntity.name(),
@@ -28,6 +32,7 @@ public record ItemDto(
                 itemEntity.postedDay(),
                 itemEntity.category(),
                 itemEntity.isSold(),
-                itemImageUrls);
+                itemImageUrls,
+                lat, lon);
     }
 }

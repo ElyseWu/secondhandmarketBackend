@@ -6,4 +6,5 @@ import team3.secondhand.entity.Location;
 
 @Repository
 public interface LocationRepository extends ElasticsearchRepository<Location, Long>, UserLocationRepository {
+    Location getLocationById(Long itemId);
 }

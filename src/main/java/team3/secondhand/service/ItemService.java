@@ -50,8 +50,11 @@ public class ItemService {
             itemImageUrls.add(itemImageEntity.url());
         }
 
+        //get location
+        Location location = locationRepository.getLocationById(itemId);
+
         // 4. construct ItemDto and return
-        return new ItemDto(itemEntity, itemImageUrls);
+        return new ItemDto(itemEntity, itemImageUrls, location.geoPoint().getLat(), location.geoPoint().getLon());
     }
 
     @Cacheable("items")
@@ -66,7 +69,8 @@ public class ItemService {
             for (ItemImageEntity itemImageEntity : itemImageEntities) {
                 itemImageUrls.add(itemImageEntity.url());
             }
-            myItems.add(new ItemDto(item, itemImageUrls));
+            Location location = locationRepository.getLocationById(item.id());
+            myItems.add(new ItemDto(item, itemImageUrls, location.geoPoint().getLat(), location.geoPoint().getLon()));
         }
         myItems.sort((one, two) -> (int) (one.itemId() - two.itemId()));
 
@@ -91,7 +95,8 @@ public class ItemService {
             for (ItemImageEntity itemImageEntity : itemImageEntities) {
                 itemImageUrls.add(itemImageEntity.url());
             }
-            items.add(new ItemDto(item, itemImageUrls));
+            Location location = locationRepository.getLocationById(id);
+            items.add(new ItemDto(item, itemImageUrls, location.geoPoint().getLat(), location.geoPoint().getLon()));
         }
 //        Iterator<ItemEntity> iterator = itemRepository.findAllByIsSold(false).iterator();
 //        List<ItemDto> items = new ArrayList<>();
