@@ -60,7 +60,7 @@ CREATE TABLE messages(
     content       TEXT               NOT NULL,
     sender_name   TEXT               NOT NULL,
     receiver_name TEXT               NOT NULL,
-    send_time     TIMESTAMP WITH TIME ZONE NOT NULL,
+    send_time     TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
     chat_id       INTEGER            NOT NULL,
     CONSTRAINT fk_chat FOREIGN KEY (chat_id) REFERENCES chats (id) ON DELETE CASCADE
 );
