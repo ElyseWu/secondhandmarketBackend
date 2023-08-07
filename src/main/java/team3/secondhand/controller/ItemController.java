@@ -83,7 +83,7 @@ public class ItemController {
             @RequestParam("description") String description,
             @RequestParam("condition") String condition,
             @RequestParam("category") String category,
-            @RequestParam("images") MultipartFile[] images) {
+            @RequestParam(value = "images", required = false) MultipartFile[] images) {
         itemService.modifyItem(itemId, principal.getName(), name, Double.valueOf(price), description, condition, category, images);
     }
 

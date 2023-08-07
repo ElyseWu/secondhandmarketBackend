@@ -168,17 +168,19 @@ public class ItemService {
         DescriptionEntity descriptionEntity = new DescriptionEntity(itemId, description);
         descriptionRepository.save(descriptionEntity);
 
-        List<String> mediaLinks = Arrays.stream(images).parallel().map(image -> itemImageStorageService.save(image)).collect(Collectors.toList());
-        //1. delete origin link in item_image
-        //2. insert new link in item_image
+        if (images != null) {
+            List<String> mediaLinks = Arrays.stream(images).parallel().map(image -> itemImageStorageService.save(image)).collect(Collectors.toList());
+            //1. delete origin link in item_image
+            //2. insert new link in item_image
 
-        List<ItemImageEntity> itemUrls = itemImageRepository.getItemImageEntitiesByItemId(itemId);
-        for (ItemImageEntity itemImage: itemUrls) {
-            itemImageRepository.delete(itemImage);
-        }
+            List<ItemImageEntity> itemUrls = itemImageRepository.getItemImageEntitiesByItemId(itemId);
+            for (ItemImageEntity itemImage: itemUrls) {
+                itemImageRepository.delete(itemImage);
+            }
 
-        for (String mediaLink : mediaLinks) {
-            itemImageRepository.insert(mediaLink, itemId);
+            for (String mediaLink : mediaLinks) {
+                itemImageRepository.insert(mediaLink, itemId);
+            }
         }
     }
 
