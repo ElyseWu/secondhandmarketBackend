@@ -77,7 +77,7 @@ public class ItemService {
     public List<ItemDto> getAllItems(double lat, double lon, String distance) {
         // iterator of all items
         Set<Long> itemIdsByDistance = locationRepository.searchByDistance(lat, lon, distance);
-//        System.out.println(itemIdsByDistance);
+        System.out.println(itemIdsByDistance);
         List<ItemDto> items = new ArrayList<>();
         for (Long id: itemIdsByDistance) {
             ItemEntity item = itemRepository.getItemEntityById(id);
@@ -145,6 +145,7 @@ public class ItemService {
     @CacheEvict(cacheNames = "items", key = "#itemId")
     @Transactional
     public void deleteItem(Long itemId, String username) {
+        descriptionRepository.deleteById(itemId);
         locationRepository.deleteById(itemId);
         itemRepository.deleteById(itemId);
     }
@@ -163,6 +164,9 @@ public class ItemService {
                 category,
                 oldItem.isSold());
         itemRepository.save(newItem);
+
+        DescriptionEntity descriptionEntity = new DescriptionEntity(itemId, description);
+        descriptionRepository.save(descriptionEntity);
 
         List<String> mediaLinks = Arrays.stream(images).parallel().map(image -> itemImageStorageService.save(image)).collect(Collectors.toList());
         //1. delete origin link in item_image
