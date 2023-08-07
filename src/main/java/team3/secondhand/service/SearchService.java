@@ -2,10 +2,7 @@ package team3.secondhand.service;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import team3.secondhand.entity.DescriptionEntity;
-import team3.secondhand.entity.ItemEntity;
-import team3.secondhand.entity.ItemImageEntity;
-import team3.secondhand.entity.UserEntity;
+import team3.secondhand.entity.*;
 import team3.secondhand.model.ItemDto;
 import team3.secondhand.repository.*;
 
@@ -76,7 +73,8 @@ public class SearchService {
             for(ItemImageEntity itemImageEntity : itemImageEntities) {
                 itemImageUrls.add(itemImageEntity.url());
             }
-            ItemDto itemDto = new ItemDto(itemEntity, itemImageUrls);
+            Location location = locationRepository.getLocationById(id);
+            ItemDto itemDto = new ItemDto(itemEntity, itemImageUrls, location.geoPoint().getLat(), location.geoPoint().getLon());
             items.add(itemDto);
         }
 
@@ -102,7 +100,8 @@ public class SearchService {
             for (ItemImageEntity itemImage : itemImageEntities) {
                 itemUrls.add(itemImage.url());
             }
-            items.add(new ItemDto(item, itemUrls));
+            Location location = locationRepository.getLocationById(item.id());
+            items.add(new ItemDto(item, itemUrls, location.geoPoint().getLat(), location.geoPoint().getLon()));
         }
         items.sort((one, two) -> (int) (one.itemId() - two.itemId()));
 
