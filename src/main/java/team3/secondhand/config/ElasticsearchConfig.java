@@ -11,13 +11,13 @@ import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfig
 @Configuration
 public class ElasticsearchConfig extends AbstractElasticsearchConfiguration {
 
-    @Value("34.123.18.157:9200")
+    @Value("${elasticsearch.address}")
     private String elasticsearchAddress;
 
-    @Value("team3")
+    @Value("${elasticsearch.username}")
     private String elasticsearchUsername;
 
-    @Value("secondhand2023")
+    @Value("${elasticsearch.password}")
     private String elasticsearchPassword;
 
     // 我们在本机运行着app,但是我们Elastic Search Service是运行在GCP上的VM instance中

@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/register").permitAll()
                 .antMatchers(HttpMethod.POST,"/authenticate").permitAll()
-                .antMatchers("/search").permitAll()
+                .antMatchers("/search", "/swagger-ui.html", "swagger-ui/*").permitAll()
                 .antMatchers(HttpMethod.GET,"/item/*").permitAll()
                 .antMatchers(HttpMethod.GET,"/items").permitAll()
                 .antMatchers(HttpMethod.GET,"/items/my").hasAuthority("ROLE_USER")
@@ -51,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "reply/*").hasAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.GET, "/chats").hasAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.GET, "/messages/*").hasAuthority("ROLE_USER")
+
 
                 .anyRequest().authenticated()
                 .and()

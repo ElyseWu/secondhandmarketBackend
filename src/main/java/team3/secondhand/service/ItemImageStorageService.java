@@ -16,7 +16,7 @@ import java.util.UUID;
 @Service
 public class ItemImageStorageService {
 
-    @Value("secondhand-item-images")
+    @Value("${gcs.bucket}")
     private String bucketName;
 
     private final Storage storage;

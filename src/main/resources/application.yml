@@ -14,22 +14,27 @@ spring:
     driver-class-name: org.postgresql.Driver
   sql:
     init:
-      mode: ${INIT_DB:always}
+      mode: ${INIT_DB:never}
       schema-locations: "classpath:database-init.sql"
   cache:
     redis:
       time-to-live: 10S
     type: redis
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
 
 gcs:
-  bucket: "secondhand-item-images"
+  bucket: "secondhand-bucket"
 
 jwt:
   secret: "secret"
 
 elasticsearch:
-  address: "34.123.18.157:9200"
-  username: "team3"
-  password: "secondhand2023"
+  address: "34.16.170.100:9200"
+  username: "elyse"
+  password: "12345678"
+
+
 
 

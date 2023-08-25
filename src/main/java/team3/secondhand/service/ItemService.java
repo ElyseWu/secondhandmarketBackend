@@ -82,6 +82,7 @@ public class ItemService {
         // iterator of all items
         Set<Long> itemIdsByDistance = locationRepository.searchByDistance(lat, lon, distance);
         System.out.println(itemIdsByDistance);
+        System.out.println(itemIdsByDistance);
         List<ItemDto> items = new ArrayList<>();
         for (Long id: itemIdsByDistance) {
             ItemEntity item = itemRepository.getItemEntityById(id);
@@ -137,11 +138,13 @@ public class ItemService {
         }
 
         // construct and save corresponding DescriptionEntity in ElasticSearchRepository
-        DescriptionEntity descriptionEntity = new DescriptionEntity(item.id(), item.description());
+        String description = item.description() + " " + item.name();
+        DescriptionEntity descriptionEntity = new DescriptionEntity(item.id(), description);
         descriptionRepository.save(descriptionEntity);
 
         //save location
         Location location = new Location(item.id(), new GeoPoint(lat, lon));
+        System.out.println(location);
         locationRepository.save(location);
         System.out.println(location);
 
