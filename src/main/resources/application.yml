@@ -31,9 +31,9 @@ jwt:
   secret: "secret"
 
 elasticsearch:
-  address: "34.16.170.100:9200"
-  username: "elyse"
-  password: "12345678"
+  address: 
+  username:
+  password: 
 
 
 
