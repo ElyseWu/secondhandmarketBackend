@@ -44,8 +44,16 @@
 <img width="667" alt="image" src="https://github.com/ElyseWu/SecondHandMarket_FE/assets/99052684/84eac9b8-e745-4f35-9a92-e358cac8eedb">
 
 ### 6. user can check chat history and notifications
-<img width="683" alt="image" src="https://github.com/ElyseWu/SecondHandMarket_FE/assets/99052684/3e8ba2fe-c814-4993-9c06-add5e383f9ab">
-<img width="663" alt="image" src="https://github.com/ElyseWu/SecondHandMarket_FE/assets/99052684/658f9e2a-7c8e-4b51-9798-0e53c7ee74c5">
+<img width="483" alt="image" src="https://github.com/ElyseWu/SecondHandMarket_FE/assets/99052684/3e8ba2fe-c814-4993-9c06-add5e383f9ab">
+<img width="463" alt="image" src="https://github.com/ElyseWu/SecondHandMarket_FE/assets/99052684/658f9e2a-7c8e-4b51-9798-0e53c7ee74c5">
+
+### 7. user can check profile page and change account username, password or location settings
+<img width="400" alt="image" src="https://github.com/ElyseWu/secondhandmarketBackend/assets/99052684/d9ef4249-7ada-44c8-9900-1fe7d44da5c2">
+<img width="412" alt="image" src="https://github.com/ElyseWu/secondhandmarketBackend/assets/99052684/37d4aa13-d5d3-48fa-b7f4-ac165273828e">
+<img width="444" alt="image" src="https://github.com/ElyseWu/secondhandmarketBackend/assets/99052684/bc107c7f-5f57-46ce-81a8-13c782daab85">
+
+
+
 
 ## to use database, please do the following: 
 1. run onlineorder database in docker
