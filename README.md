@@ -49,8 +49,8 @@
 
 ### 7. user can check profile page and change account username, password or location settings
 <img width="400" alt="image" src="https://github.com/ElyseWu/secondhandmarketBackend/assets/99052684/d9ef4249-7ada-44c8-9900-1fe7d44da5c2">
-<img width="412" alt="image" src="https://github.com/ElyseWu/secondhandmarketBackend/assets/99052684/37d4aa13-d5d3-48fa-b7f4-ac165273828e">
-<img width="444" alt="image" src="https://github.com/ElyseWu/secondhandmarketBackend/assets/99052684/bc107c7f-5f57-46ce-81a8-13c782daab85">
+<img width="459" alt="image" src="https://github.com/ElyseWu/secondhandmarketBackend/assets/99052684/c7f283ed-afbd-433d-947c-45af99b4decf">
+<img width="512" alt="image" src="https://github.com/ElyseWu/secondhandmarketBackend/assets/99052684/f828776c-a70a-4421-b181-732ad9a6a417">
 
 
 
